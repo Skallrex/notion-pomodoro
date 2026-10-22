@@ -3,37 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hub de Rendimiento y Ocio</title>
+  <title>Hub de Rendimiento y Ocio - Estilo Tradicional Japonés</title>
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Noto Serif JP y Shippori Mincho para estética tradicional japonesa -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Noto+Serif+JP:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --bg: #0f1115;
-      --card-bg: rgba(22, 27, 34, 0.7);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text: #e6edf3;
-      --text-muted: #8b949e;
-      --accent: #58a6ff;
-      --accent-glow: rgba(88, 166, 255, 0.25);
-      --green: #2ea043;
-      --green-glow: rgba(46, 160, 67, 0.2);
-      --purple: #bc8cff;
-      --purple-glow: rgba(188, 140, 255, 0.25);
-      --amber: #d29922;
-      --amber-glow: rgba(210, 153, 34, 0.25);
-      --red: #f85149;
+      /* Paleta tradicional japonesa en tonos morados (Murasaki 紫 & Sumi 墨) */
+      --bg: #0d0b12; /* Sumi negro azulado con toque morado profundo */
+      --card-bg: rgba(23, 19, 33, 0.78); /* Púrpura noche translúcido */
+      --card-border: rgba(186, 150, 248, 0.16);
+      --card-hover-border: rgba(216, 180, 254, 0.35);
+      
+      --text: #f3effa;
+      --text-muted: #9e92b3;
+      --accent-purple: #c084fc; /* Murasaki violeta radiante */
+      --purple-glow: rgba(192, 132, 252, 0.28);
+      
+      --deep-purple: #7e22ce;
+      --sakura-pink: #f472b6;
+      --sakura-glow: rgba(244, 114, 182, 0.25);
+      --gold-accent: #eab308;
+      --gold-glow: rgba(234, 179, 8, 0.22);
+      
+      --green-leaf: #34d399;
+      --red-torii: #f43f5e;
+      --red-glow: rgba(244, 63, 94, 0.25);
+
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-kanji: 'Noto Serif JP', 'Cinzel', serif;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
     }
 
     body {
       background-color: var(--bg);
+      background-image: 
+        radial-gradient(ellipse at 80% 0%, rgba(126, 34, 206, 0.15), transparent 60%),
+        radial-gradient(ellipse at 10% 100%, rgba(244, 114, 182, 0.08), transparent 50%),
+        radial-gradient(rgba(192, 132, 252, 0.04) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 24px 24px;
       color: var(--text);
       padding: 24px;
       min-height: 100vh;
@@ -46,19 +67,25 @@
       max-width: 1100px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 22px;
     }
 
+    /* Tarjetas estilo Washi Glassmorphic */
     .glass-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      border-radius: 14px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       padding: 22px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
       position: relative;
       overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-card:hover {
+      border-color: var(--card-hover-border);
     }
 
     .glass-card::before {
@@ -67,80 +94,146 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-purple), var(--sakura-pink), transparent);
+      opacity: 0.7;
     }
 
+    /* Banner Principal */
     .header-section {
       display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-columns: 1.45fr 1fr 1fr;
       gap: 16px;
     }
 
     .banner-card {
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      background: linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(188, 140, 255, 0.05) 100%);
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(30, 20, 48, 0.9) 0%, rgba(15, 12, 24, 0.95) 100%);
+      overflow: hidden;
+    }
+
+    .banner-bg-img {
+      position: absolute;
+      right: -10px;
+      bottom: -15px;
+      width: 210px;
+      height: auto;
+      opacity: 0.32;
+      pointer-events: none;
+      filter: drop-shadow(0 0 16px var(--purple-glow)) hue-rotate(270deg) saturate(1.4);
+      mask-image: radial-gradient(circle at 60% 60%, black 50%, transparent 90%);
+      -webkit-mask-image: radial-gradient(circle at 60% 60%, black 50%, transparent 90%);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .banner-card:hover .banner-bg-img {
+      opacity: 0.45;
+      transform: scale(1.04);
+    }
+
+    .banner-kanji {
+      font-family: var(--font-kanji);
+      font-size: 0.82rem;
+      letter-spacing: 0.35em;
+      color: var(--sakura-pink);
+      text-transform: uppercase;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
     }
 
     .banner-title {
-      font-size: 1.5rem;
+      font-family: var(--font-kanji);
+      font-size: 1.55rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
       display: flex;
       align-items: center;
       gap: 10px;
+      color: #fff;
     }
 
     .banner-title i {
-      color: var(--accent);
-      filter: drop-shadow(0 0 8px var(--accent-glow));
+      color: var(--accent-purple);
+      filter: drop-shadow(0 0 10px var(--purple-glow));
     }
 
     .banner-sub {
       color: var(--text-muted);
-      font-size: 0.88rem;
-      margin-top: 6px;
+      font-size: 0.86rem;
+      margin-top: 8px;
+      line-height: 1.45;
+      max-width: 85%;
     }
 
+    /* Tarjetas de Métricas */
     .metric-card {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
+    }
+
+    .metric-card::after {
+      content: '';
+      position: absolute;
+      right: 14px;
+      bottom: 12px;
+      font-family: var(--font-kanji);
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.03);
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .metric-card.ocio-card::after {
+      content: '遊'; /* Asobi / Ocio */
+    }
+
+    .metric-card.estudio-card::after {
+      content: '学'; /* Gaku / Estudio */
     }
 
     .metric-label {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       color: var(--text-muted);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      font-weight: 600;
     }
 
     .metric-value-wrap {
       display: flex;
       align-items: baseline;
       gap: 8px;
-      margin: 10px 0 4px;
+      margin: 12px 0 6px;
     }
 
     .metric-num {
-      font-size: 2.2rem;
+      font-family: var(--font-kanji);
+      font-size: 2.3rem;
       font-weight: 800;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.02em;
     }
 
     .metric-num.ocio {
-      color: var(--purple);
-      text-shadow: 0 0 16px var(--purple-glow);
+      color: var(--accent-purple);
+      text-shadow: 0 0 20px var(--purple-glow);
     }
 
     .metric-num.estudio {
-      color: var(--accent);
-      text-shadow: 0 0 16px var(--accent-glow);
+      color: var(--sakura-pink);
+      text-shadow: 0 0 20px var(--sakura-glow);
     }
 
     .metric-unit {
@@ -154,10 +247,22 @@
       color: var(--text-muted);
     }
 
+    /* Temporizador */
     .timer-section {
       display: grid;
       grid-template-columns: 1fr 1.3fr;
       gap: 20px;
+    }
+
+    .section-title {
+      font-family: var(--font-kanji);
+      font-size: 1.05rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      color: #fff;
     }
 
     .timer-display-box {
@@ -165,20 +270,21 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 16px 20px;
-      background: rgba(13, 17, 23, 0.7);
-      border-radius: 14px;
+      padding: 20px;
+      background: rgba(14, 11, 20, 0.85);
+      border-radius: 12px;
       border: 1px solid var(--card-border);
       position: relative;
     }
 
     .timer-mode-pills {
       display: flex;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 20px;
-      padding: 3px;
+      padding: 4px;
       gap: 4px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .pill-btn {
@@ -190,31 +296,37 @@
       font-weight: 600;
       border-radius: 16px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.25s ease;
+    }
+
+    .pill-btn:hover {
+      color: #fff;
     }
 
     .pill-btn.active {
-      background: var(--accent);
-      color: #0f1115;
+      background: linear-gradient(135deg, var(--deep-purple), var(--accent-purple));
+      color: #fff;
+      box-shadow: 0 2px 10px var(--purple-glow);
     }
 
     .timer-clock {
-      font-size: 3.6rem;
-      font-weight: 800;
+      font-family: var(--font-kanji);
+      font-size: 3.8rem;
+      font-weight: 700;
       letter-spacing: 0.04em;
       font-variant-numeric: tabular-nums;
       color: #fff;
-      text-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+      text-shadow: 0 0 26px var(--purple-glow);
       margin-bottom: 8px;
     }
 
     .timer-status-badge {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
       display: flex;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 16px;
+      gap: 8px;
+      margin-bottom: 18px;
     }
 
     .timer-controls {
@@ -236,30 +348,38 @@
       justify-content: center;
       gap: 8px;
       border: none;
-      transition: all 0.2s;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .btn-start {
-      background: linear-gradient(135deg, #238636 0%, #2ea043 100%);
+      background: linear-gradient(135deg, #7e22ce 0%, #a855f7 100%);
       color: #fff;
-      box-shadow: 0 4px 12px var(--green-glow);
+      box-shadow: 0 4px 16px var(--purple-glow);
     }
-    .btn-start:hover { transform: translateY(-1px); }
+    .btn-start:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--purple-glow);
+    }
 
     .btn-pause {
-      background: linear-gradient(135deg, #b08800 0%, #d29922 100%);
+      background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%);
       color: #fff;
-      box-shadow: 0 4px 12px var(--amber-glow);
+      box-shadow: 0 4px 16px var(--gold-glow);
     }
 
     .btn-reset {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
       color: var(--text-muted);
-      flex: 0.5;
+      flex: 0.45;
     }
-    .btn-reset:hover { color: var(--red); border-color: rgba(248, 81, 73, 0.3); }
+    .btn-reset:hover {
+      color: var(--red-torii);
+      border-color: rgba(244, 63, 94, 0.3);
+      background: rgba(244, 63, 94, 0.08);
+    }
 
+    /* Configuración */
     .timer-config {
       display: flex;
       flex-direction: column;
@@ -274,7 +394,7 @@
     }
 
     .config-item {
-      background: rgba(13, 17, 23, 0.5);
+      background: rgba(14, 11, 20, 0.7);
       border: 1px solid var(--card-border);
       border-radius: 10px;
       padding: 12px;
@@ -285,37 +405,43 @@
       font-size: 0.78rem;
       color: var(--text-muted);
       margin-bottom: 6px;
+      font-weight: 500;
     }
 
     .config-item select, .config-item input {
       width: 100%;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--card-border);
-      border-radius: 6px;
+      border-radius: 8px;
       color: var(--text);
-      padding: 6px 8px;
+      padding: 8px 10px;
       font-size: 0.9rem;
       outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .config-item select:focus, .config-item input:focus {
+      border-color: var(--accent-purple);
     }
 
     .slider-box {
-      background: rgba(13, 17, 23, 0.5);
+      background: rgba(14, 11, 20, 0.7);
       border: 1px solid var(--card-border);
       border-radius: 10px;
-      padding: 14px;
+      padding: 16px;
     }
 
     .slider-header {
       display: flex;
       justify-content: space-between;
       font-size: 0.85rem;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     input[type=range] {
       width: 100%;
       height: 6px;
-      background: #21262d;
+      background: #231c30;
       border-radius: 4px;
       outline: none;
       -webkit-appearance: none;
@@ -325,12 +451,18 @@
       -webkit-appearance: none;
       width: 18px;
       height: 18px;
-      background: var(--purple);
+      background: var(--accent-purple);
       border-radius: 50%;
       cursor: pointer;
-      box-shadow: 0 0 10px var(--purple-glow);
+      box-shadow: 0 0 12px var(--purple-glow);
+      transition: transform 0.15s ease;
     }
 
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    /* Gráfica Semanal */
     .chart-container {
       position: relative;
       height: 220px;
@@ -344,181 +476,247 @@
       margin-bottom: 14px;
     }
 
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
     .btn-ghost {
       background: transparent;
       border: 1px solid var(--card-border);
-      border-radius: 6px;
+      border-radius: 8px;
       color: var(--text-muted);
-      font-size: 0.75rem;
-      padding: 5px 10px;
+      font-size: 0.78rem;
+      padding: 6px 12px;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
     }
 
     .btn-ghost:hover {
-      color: var(--red);
-      border-color: rgba(248, 81, 73, 0.4);
+      color: var(--red-torii);
+      border-color: rgba(244, 63, 94, 0.4);
+      background: rgba(244, 63, 94, 0.08);
     }
 
+    /* Tienda de Recompensas con Imágenes */
     .rewards-cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
     }
 
     .reward-item {
-      background: rgba(13, 17, 23, 0.6);
+      background: rgba(14, 11, 20, 0.75);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 14px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       position: relative;
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .reward-item:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
+      border-color: var(--card-hover-border);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6), 0 0 14px var(--purple-glow);
+    }
+
+    .reward-banner-img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--card-border);
+      transition: transform 0.4s ease;
+      background-color: #1a1528;
+    }
+
+    .reward-item:hover .reward-banner-img {
+      transform: scale(1.05);
+    }
+
+    .reward-img-wrap {
+      overflow: hidden;
+      position: relative;
+      height: 100px;
+    }
+
+    .reward-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(14, 11, 20, 0.95) 100%);
+    }
+
+    .reward-content {
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      justify-content: space-between;
     }
 
     .reward-top {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
     }
 
     .reward-icon {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 10px;
-      background: rgba(188, 140, 255, 0.1);
-      color: var(--purple);
+      background: rgba(192, 132, 252, 0.12);
+      border: 1px solid rgba(192, 132, 252, 0.2);
+      color: var(--accent-purple);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1rem;
+      flex-shrink: 0;
     }
 
     .reward-info h4 {
-      font-size: 0.95rem;
+      font-size: 0.94rem;
       font-weight: 600;
-      color: var(--text);
+      color: #fff;
+      line-height: 1.3;
     }
 
     .reward-cost {
       font-size: 0.8rem;
-      color: var(--purple);
+      color: var(--accent-purple);
       font-weight: 600;
       margin-top: 2px;
     }
 
     .reward-btn-redeem {
       width: 100%;
-      background: rgba(188, 140, 255, 0.12);
-      border: 1px solid rgba(188, 140, 255, 0.3);
-      color: var(--purple);
+      background: linear-gradient(135deg, rgba(126, 34, 206, 0.3) 0%, rgba(192, 132, 252, 0.18) 100%);
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      color: #e9d5ff;
       border-radius: 8px;
-      padding: 8px;
-      font-size: 0.85rem;
+      padding: 9px;
+      font-size: 0.86rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
       transition: all 0.2s ease;
     }
 
     .reward-btn-redeem:hover:not(:disabled) {
-      background: var(--purple);
-      color: #0f1115;
-      box-shadow: 0 0 12px var(--purple-glow);
+      background: var(--accent-purple);
+      color: #0d0b12;
+      box-shadow: 0 0 16px var(--purple-glow);
     }
 
     .reward-btn-redeem:disabled {
-      opacity: 0.35;
+      opacity: 0.3;
       cursor: not-allowed;
       border-color: var(--card-border);
     }
 
+    .delete-reward-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      transition: all 0.2s;
+    }
+
+    .delete-reward-btn:hover {
+      color: #fff;
+      background: var(--red-torii);
+      border-color: var(--red-torii);
+    }
+
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
+      background: rgba(192, 132, 252, 0.08);
+      border: 1px solid rgba(192, 132, 252, 0.25);
       border-radius: 8px;
-      color: var(--accent);
-      font-size: 0.85rem;
+      color: var(--accent-purple);
+      font-size: 0.84rem;
       font-weight: 600;
       padding: 8px 14px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      transition: all 0.2s ease;
     }
 
-    .delete-reward-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 0.75rem;
-      opacity: 0.4;
+    .btn-secondary:hover {
+      background: rgba(192, 132, 252, 0.18);
+      border-color: var(--accent-purple);
     }
-    .delete-reward-btn:hover { opacity: 1; color: var(--red); }
 
+    /* Modal */
     .modal-backdrop {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(6px);
+      background: rgba(8, 6, 12, 0.82);
+      backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 100;
     }
+
     .modal-box {
-      background: #161b22;
-      border: 1px solid var(--card-border);
+      background: #171323;
+      border: 1px solid var(--card-hover-border);
       border-radius: 14px;
       padding: 24px;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
     }
 
     @media (max-width: 820px) {
       .header-section { grid-template-columns: 1fr; }
       .timer-section { grid-template-columns: 1fr; }
+      .banner-bg-img { display: none; }
     }
   </style>
 </head>
 <body>
 
   <div class="container">
+    <!-- Encabezado Estilo Tradicional Japonés -->
     <div class="header-section">
       <div class="glass-card banner-card">
-        <div class="banner-title">
-          <i class="fa-solid fa-bolt"></i> Hub de Enfoque y Ocio
+        <img class="banner-bg-img" src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=400&q=80" alt="Torii & Cherry Blossom">
+        
+        <div class="banner-kanji">
+          <span>集中と報酬</span>
+          <i class="fa-solid fa-fan" style="font-size: 0.75rem;"></i>
         </div>
-        <div class="banner-sub">Temporizador Pomodoro interactivo con registro automático de horas y ocio.</div>
+        <div class="banner-title">
+          <i class="fa-solid fa-torii-gate"></i> Hub de Enfoque y Ocio
+        </div>
+        <div class="banner-sub">
+          Armoniza tu disciplina de estudio con tiempo de serenidad y recompensa sin remordimientos.
+        </div>
       </div>
 
-      <div class="glass-card metric-card">
+      <div class="glass-card metric-card ocio-card">
         <div class="metric-label">
-          <span>Saldo de Ocio</span>
-          <i class="fa-solid fa-gamepad" style="color: var(--purple);"></i>
+          <span>Saldo de Ocio (遊)</span>
+          <i class="fa-solid fa-gamepad" style="color: var(--accent-purple);"></i>
         </div>
         <div class="metric-value-wrap">
           <span class="metric-num ocio" id="balanceOcio">60</span>
@@ -527,23 +725,25 @@
         <div class="metric-foot">Disponibles para canjear</div>
       </div>
 
-      <div class="glass-card metric-card">
+      <div class="glass-card metric-card estudio-card">
         <div class="metric-label">
-          <span>Estudio Semanal</span>
-          <i class="fa-solid fa-graduation-cap" style="color: var(--accent);"></i>
+          <span>Estudio Semanal (学)</span>
+          <i class="fa-solid fa-scroll" style="color: var(--sakura-pink);"></i>
         </div>
         <div class="metric-value-wrap">
           <span class="metric-num estudio" id="totalSemanal">0.0</span>
           <span class="metric-unit">horas</span>
         </div>
-        <div class="metric-foot" id="metaStatus">Meta: 25 hrs/semana</div>
+        <div class="metric-foot" id="metaStatus">Objetivo: 25 hrs/semana</div>
       </div>
     </div>
 
+    <!-- Sección del Temporizador / Reloj -->
     <div class="timer-section">
       <div class="glass-card">
         <div class="section-title">
-          <i class="fa-solid fa-stopwatch" style="color: var(--accent);"></i> Temporizador de Estudio
+          <i class="fa-solid fa-stopwatch" style="color: var(--accent-purple);"></i> 
+          <span>Temporizador de Estudio • 時</span>
         </div>
 
         <div class="timer-display-box">
@@ -556,7 +756,7 @@
           <div class="timer-clock" id="clockDisplay">25:00</div>
 
           <div class="timer-status-badge" id="statusBadge">
-            <i class="fa-solid fa-circle-play" style="color: var(--accent);"></i> Listo para comenzar sesión
+            <i class="fa-solid fa-circle-play" style="color: var(--accent-purple);"></i> Listo para comenzar sesión
           </div>
 
           <div class="timer-controls">
@@ -573,7 +773,8 @@
       <div class="glass-card timer-config">
         <div>
           <div class="section-title">
-            <i class="fa-solid fa-sliders" style="color: var(--amber);"></i> Configuración de Rutina
+            <i class="fa-solid fa-sliders" style="color: var(--gold-accent);"></i> 
+            <span>Ajuste de Ritmo • 律</span>
           </div>
 
           <div class="config-group">
@@ -599,21 +800,23 @@
 
         <div class="slider-box">
           <div class="slider-header">
-            <span>Tasa de Recompensa:</span>
-            <span style="color: var(--purple); font-weight: 600;" id="rateLabel">30 min ocio / 1 hr estudio</span>
+            <span style="font-weight: 500;">Tasa de Recompensa:</span>
+            <span style="color: var(--accent-purple); font-weight: 700;" id="rateLabel">30 min ocio / 1 hr estudio</span>
           </div>
           <input type="range" id="rateSlider" min="10" max="60" step="5" value="30" oninput="updateRate(this.value)">
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">
-            Al parar o finalizar el reloj, el tiempo estudiado se sumará automáticamente a tus horas y saldo de ocio.
+          <div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 8px;">
+            Al parar o finalizar el reloj, el tiempo de estudio se registra automáticamente en tu gráfica y acredita ocio.
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Gráfica Semanal -->
     <div class="glass-card">
       <div class="chart-header">
         <div class="section-title" style="margin-bottom: 0;">
-          <i class="fa-solid fa-chart-column" style="color: var(--accent);"></i> Progreso Semanal (Lunes - Domingo)
+          <i class="fa-solid fa-chart-column" style="color: var(--accent-purple);"></i> 
+          <span>Progreso Semanal • 週間進捗</span>
         </div>
         <button class="btn-ghost" onclick="resetSemana()">
           <i class="fa-solid fa-rotate-left"></i> Reiniciar Semana
@@ -624,10 +827,12 @@
       </div>
     </div>
 
+    <!-- Tienda de Recompensas -->
     <div class="glass-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
         <div class="section-title" style="margin-bottom: 0;">
-          <i class="fa-solid fa-store" style="color: var(--purple);"></i> Tienda de Recompensas
+          <i class="fa-solid fa-gift" style="color: var(--sakura-pink);"></i> 
+          <span>Tienda de Recompensas • 褒美</span>
         </div>
         <button class="btn-secondary" onclick="openModal()">
           <i class="fa-solid fa-plus"></i> Nueva Recompensa
@@ -638,20 +843,27 @@
     </div>
   </div>
 
+  <!-- Modal para Agregar Recompensa -->
   <div class="modal-backdrop" id="modalReward">
     <div class="modal-box">
-      <h3 style="margin-bottom: 14px; font-size: 1.1rem;"><i class="fa-solid fa-gift" style="color: var(--purple);"></i> Añadir Recompensa</h3>
+      <h3 style="margin-bottom: 14px; font-size: 1.15rem; font-family: var(--font-kanji); color: #fff;">
+        <i class="fa-solid fa-gift" style="color: var(--sakura-pink);"></i> Añadir Nueva Recompensa
+      </h3>
       <div style="margin-bottom: 12px;">
-        <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Nombre de la recompensa</label>
-        <input type="text" id="newRewardName" style="width: 100%; background: #0d1117; border: 1px solid var(--card-border); border-radius: 8px; color: #fff; padding: 10px;" placeholder="Ej. Steam / Serie / Desconexión">
+        <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 6px;">Nombre de la recompensa</label>
+        <input type="text" id="newRewardName" style="width: 100%; background: #0e0b14; border: 1px solid var(--card-border); border-radius: 8px; color: #fff; padding: 10px;" placeholder="Ej. Steam / Serie / Desconexión">
       </div>
-      <div style="margin-bottom: 16px;">
-        <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 4px;">Costo (minutos de ocio)</label>
-        <input type="number" id="newRewardCost" style="width: 100%; background: #0d1117; border: 1px solid var(--card-border); border-radius: 8px; color: #fff; padding: 10px;" value="45" step="5" min="5">
+      <div style="margin-bottom: 12px;">
+        <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 6px;">Costo (minutos de ocio)</label>
+        <input type="number" id="newRewardCost" style="width: 100%; background: #0e0b14; border: 1px solid var(--card-border); border-radius: 8px; color: #fff; padding: 10px;" value="45" step="5" min="5">
+      </div>
+      <div style="margin-bottom: 18px;">
+        <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 6px;">URL de imagen (Opcional)</label>
+        <input type="text" id="newRewardImg" style="width: 100%; background: #0e0b14; border: 1px solid var(--card-border); border-radius: 8px; color: #fff; padding: 10px;" placeholder="https://ejemplo.com/imagen.jpg">
       </div>
       <div style="display: flex; justify-content: flex-end; gap: 10px;">
         <button class="btn-ghost" onclick="closeModal()">Cancelar</button>
-        <button class="btn-timer btn-start" style="padding: 8px 18px;" onclick="saveReward()">Guardar</button>
+        <button class="btn-timer btn-start" style="padding: 8px 20px;" onclick="saveReward()">Guardar</button>
       </div>
     </div>
   </div>
@@ -664,10 +876,34 @@
       pomoWork: 25,
       pomoBreak: 5,
       recompensas: [
-        { id: 1, nombre: "Partida rápida en Steam", costo: 45, icon: "fa-gamepad" },
-        { id: 2, nombre: "Capítulo de serie / Anime", costo: 30, icon: "fa-tv" },
-        { id: 3, nombre: "Paseo largo con Canela", costo: 40, icon: "fa-dog" },
-        { id: 4, nombre: "Tarde libre de proyectos", costo: 120, icon: "fa-couch" }
+        { 
+          id: 1, 
+          nombre: "Partida en Steam / RPG", 
+          costo: 45, 
+          icon: "fa-gamepad",
+          img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80" 
+        },
+        { 
+          id: 2, 
+          nombre: "Episodio de Serie o Anime", 
+          costo: 30, 
+          icon: "fa-tv",
+          img: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=400&q=80" 
+        },
+        { 
+          id: 3, 
+          nombre: "Paseo largo con Canela", 
+          costo: 40, 
+          icon: "fa-dog",
+          img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=400&q=80" 
+        },
+        { 
+          id: 4, 
+          nombre: "Tarde Zen de desconexión", 
+          costo: 120, 
+          icon: "fa-couch",
+          img: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=400&q=80" 
+        }
       ]
     };
 
@@ -728,24 +964,52 @@
     const pomoBreakDuration = document.getElementById("pomoBreakDuration");
 
     const ctx = document.getElementById('weeklyChart').getContext('2d');
+    let purpleGrad = ctx.createLinearGradient(0, 0, 0, 220);
+    purpleGrad.addColorStop(0, 'rgba(192, 132, 252, 0.85)');
+    purpleGrad.addColorStop(1, 'rgba(126, 34, 206, 0.2)');
+
     const weeklyChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+        labels: ['Lun (月)', 'Mar (火)', 'Mié (水)', 'Jue (木)', 'Vie (金)', 'Sáb (土)', 'Dom (日)'],
         datasets: [{
           data: state.semana,
-          backgroundColor: 'rgba(88, 166, 255, 0.7)',
-          hoverBackgroundColor: '#58a6ff',
-          borderRadius: 6
+          backgroundColor: purpleGrad,
+          hoverBackgroundColor: '#c084fc',
+          borderRadius: 8,
+          borderWidth: 1,
+          borderColor: 'rgba(216, 180, 254, 0.4)'
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#171323',
+            titleColor: '#f3effa',
+            bodyColor: '#c084fc',
+            borderColor: 'rgba(192, 132, 252, 0.3)',
+            borderWidth: 1,
+            padding: 10,
+            displayColors: false,
+            callbacks: {
+              label: function(ctx) { return `${ctx.raw} horas registradas`; }
+            }
+          }
+        },
         scales: {
-          x: { grid: { display: false }, ticks: { color: '#8b949e' } },
-          y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#8b949e' }, beginAtZero: true }
+          x: {
+            grid: { display: false },
+            ticks: { color: '#9e92b3', font: { family: "'Noto Serif JP', sans-serif", size: 11 } }
+          },
+          y: {
+            grid: { color: 'rgba(186, 150, 248, 0.08)' },
+            ticks: { color: '#9e92b3', font: { size: 11 } },
+            suggestedMax: 5,
+            beginAtZero: true
+          }
         }
       }
     });
@@ -770,13 +1034,13 @@
 
       if (mode === 'pomodoro') {
         remainingSeconds = parseInt(pomoWorkDuration.value) * 60;
-        statusBadge.innerHTML = '<i class="fa-solid fa-circle-play" style="color: var(--accent);"></i> Modo Pomodoro (' + pomoWorkDuration.value + ' min)';
+        statusBadge.innerHTML = '<i class="fa-solid fa-circle-play" style="color: var(--accent-purple);"></i> Modo Pomodoro (' + pomoWorkDuration.value + ' min)';
       } else if (mode === 'stopwatch') {
         remainingSeconds = 0;
-        statusBadge.innerHTML = '<i class="fa-solid fa-stopwatch" style="color: var(--green);"></i> Cronómetro Libre (Empieza en 0)';
+        statusBadge.innerHTML = '<i class="fa-solid fa-stopwatch" style="color: var(--green-leaf);"></i> Cronómetro Libre (Empieza en 0)';
       } else if (mode === 'break') {
         remainingSeconds = parseInt(pomoBreakDuration.value) * 60;
-        statusBadge.innerHTML = '<i class="fa-solid fa-mug-hot" style="color: var(--purple);"></i> Tiempo de Pausa / Descanso';
+        statusBadge.innerHTML = '<i class="fa-solid fa-mug-hot" style="color: var(--sakura-pink);"></i> Tiempo de Pausa / Descanso';
       }
       elapsedSecondsInSession = 0;
       updateClockDisplay();
@@ -794,7 +1058,7 @@
       isRunning = true;
       btnToggleTimer.innerHTML = '<i class="fa-solid fa-pause"></i> Pausar';
       btnToggleTimer.className = 'btn-timer btn-pause';
-      statusBadge.innerHTML = '<i class="fa-solid fa-circle-dot fa-fade" style="color: #2ea043;"></i> Sesión activa de enfoque';
+      statusBadge.innerHTML = '<i class="fa-solid fa-circle-dot fa-fade" style="color: var(--accent-purple);"></i> Sesión de concentración activa';
 
       timerInterval = setInterval(() => {
         if (timerMode === 'stopwatch') {
@@ -816,13 +1080,13 @@
       clearInterval(timerInterval);
       btnToggleTimer.innerHTML = '<i class="fa-solid fa-play"></i> Continuar';
       btnToggleTimer.className = 'btn-timer btn-start';
-      statusBadge.innerHTML = '<i class="fa-solid fa-circle-pause" style="color: var(--amber);"></i> Sesión en pausa';
+      statusBadge.innerHTML = '<i class="fa-solid fa-circle-pause" style="color: var(--gold-accent);"></i> Sesión en pausa';
       accumulateTime();
     }
 
     function finishTimer() {
       pauseTimer();
-      statusBadge.innerHTML = '<i class="fa-solid fa-trophy" style="color: var(--amber);"></i> ¡Sesión completada! Horas y ocio acreditados';
+      statusBadge.innerHTML = '<i class="fa-solid fa-trophy" style="color: var(--gold-accent);"></i> ¡Sesión completada! Horas y ocio acreditados';
       resetTimer();
     }
 
@@ -879,18 +1143,29 @@
         const canAfford = state.ocio >= r.costo;
         const item = document.createElement("div");
         item.className = "reward-item";
+        
+        const defaultImg = "https://images.unsplash.com/photo-1528164344705-475426879c0d?auto=format&fit=crop&w=400&q=80";
+        const displayImg = r.img || defaultImg;
+
         item.innerHTML = `
-          <button class="delete-reward-btn" onclick="deleteReward(${r.id})"><i class="fa-solid fa-xmark"></i></button>
-          <div class="reward-top">
-            <div class="reward-icon"><i class="fa-solid ${r.icon || 'fa-gift'}"></i></div>
-            <div class="reward-info">
-              <h4>${r.nombre}</h4>
-              <div class="reward-cost">${r.costo} min de ocio</div>
-            </div>
-          </div>
-          <button class="reward-btn-redeem" ${canAfford ? '' : 'disabled'} onclick="redeemReward(${r.id})">
-            <i class="fa-solid fa-check"></i> Canjear
+          <button class="delete-reward-btn" onclick="deleteReward(${r.id})" title="Eliminar recompensa">
+            <i class="fa-solid fa-xmark"></i>
           </button>
+          <div class="reward-img-wrap">
+            <img class="reward-banner-img" src="${displayImg}" alt="${r.nombre}" onerror="this.src='${defaultImg}'">
+          </div>
+          <div class="reward-content">
+            <div class="reward-top">
+              <div class="reward-icon"><i class="fa-solid ${r.icon || 'fa-gift'}"></i></div>
+              <div class="reward-info">
+                <h4>${r.nombre}</h4>
+                <div class="reward-cost">${r.costo} min de ocio</div>
+              </div>
+            </div>
+            <button class="reward-btn-redeem" ${canAfford ? '' : 'disabled'} onclick="redeemReward(${r.id})">
+              <i class="fa-solid fa-check"></i> Canjear
+            </button>
+          </div>
         `;
         container.appendChild(item);
       });
@@ -917,12 +1192,22 @@
 
     function openModal() { document.getElementById("modalReward").style.display = "flex"; }
     function closeModal() { document.getElementById("modalReward").style.display = "none"; }
+    
     function saveReward() {
       const name = document.getElementById("newRewardName").value.trim();
       const cost = parseInt(document.getElementById("newRewardCost").value);
+      const imgUrl = document.getElementById("newRewardImg").value.trim();
+      
       if (name && cost > 0) {
-        state.recompensas.push({ id: Date.now(), nombre: name, costo: cost, icon: "fa-star" });
+        state.recompensas.push({ 
+          id: Date.now(), 
+          nombre: name, 
+          costo: cost, 
+          icon: "fa-star",
+          img: imgUrl || "https://images.unsplash.com/photo-1528164344705-475426879c0d?auto=format&fit=crop&w=400&q=80"
+        });
         document.getElementById("newRewardName").value = "";
+        document.getElementById("newRewardImg").value = "";
         closeModal();
         render();
       }
