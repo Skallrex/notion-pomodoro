@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hub de Rendimiento y Ocio</title>
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -673,14 +671,43 @@
       ]
     };
 
+    let memoryStorage = {};
+    function safeGet(key) {
+      try {
+        if (typeof window !== 'undefined' && 'localStorage' in window) {
+          return window.localStorage.getItem(key);
+        }
+      } catch (err) {
+        console.warn("Storage bloqueado por Notion/Brave sandbox, usando memoria interna:", err);
+      }
+      return memoryStorage[key] || null;
+    }
+
+    function safeSet(key, value) {
+      try {
+        if (typeof window !== 'undefined' && 'localStorage' in window) {
+          window.localStorage.setItem(key, value);
+          return;
+        }
+      } catch (err) {
+        console.warn("No se pudo escribir en localStorage:", err);
+      }
+      memoryStorage[key] = value;
+    }
+
     function loadState() {
-      const saved = localStorage.getItem("notion_focus_pomo_state");
+      const saved = safeGet("notion_focus_pomo_state");
       if (saved) {
-        try { state = Object.assign(state, JSON.parse(saved)); } catch(e){}
+        try {
+          state = Object.assign(state, JSON.parse(saved));
+        } catch(e) {
+          console.error("Error al parsear estado:", e);
+        }
       }
     }
+
     function saveState() {
-      localStorage.setItem("notion_focus_pomo_state", JSON.stringify(state));
+      safeSet("notion_focus_pomo_state", JSON.stringify(state));
     }
     loadState();
 
