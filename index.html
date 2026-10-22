@@ -1135,22 +1135,35 @@
       weeklyChart.data.datasets[0].data = state.semana;
       weeklyChart.update();
 
+      // Render Recompensas con Estilo Tradicional Japonés Seguro (Sin bucles de carga)
       const container = document.getElementById("rewardsContainer");
       container.innerHTML = "";
-      state.recompensas.forEach(r => {
+
+      // Fondos ornamentales tradicionales en CSS (Seigaiha, Asanoha, Nishiki)
+      const japanesePatterns = [
+        "linear-gradient(135deg, #2e1065 0%, #581c87 50%, #3b0764 100%)",
+        "linear-gradient(135deg, #3b0764 0%, #4c1d95 60%, #1e1b4b 100%)",
+        "linear-gradient(135deg, #1e1b4b 0%, #6b21a8 50%, #4a044e 100%)",
+        "linear-gradient(135deg, #4a044e 0%, #701a75 50%, #2e1065 100%)"
+      ];
+
+      const kanjiDecor = ["壱", "弐", "参", "肆"];
+
+      state.recompensas.forEach((r, idx) => {
         const canAfford = state.ocio >= r.costo;
         const item = document.createElement("div");
         item.className = "reward-item";
         
-        const defaultImg = "https://images.unsplash.com/photo-1528164344705-475426879c0d?auto=format&fit=crop&w=400&q=80";
-        const displayImg = r.img || defaultImg;
+        const patternBg = japanesePatterns[idx % japanesePatterns.length];
+        const kanji = kanjiDecor[idx % kanjiDecor.length];
 
         item.innerHTML = `
           <button class="delete-reward-btn" onclick="deleteReward(${r.id})" title="Eliminar recompensa">
             <i class="fa-solid fa-xmark"></i>
           </button>
-          <div class="reward-img-wrap">
-            <img class="reward-banner-img" src="${displayImg}" alt="${r.nombre}" onerror="this.src='${defaultImg}'">
+          <div class="reward-img-wrap" style="background: ${patternBg}; display: flex; align-items: center; justify-content: center; position: relative;">
+            ${r.img ? `<img class="reward-banner-img" src="${r.img}" alt="${r.nombre}" onerror="this.style.display='none'" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">` : ''}
+            <span style="font-family: var(--font-kanji); font-size: 2.2rem; color: rgba(255, 255, 255, 0.12); font-weight: 800; user-select: none;">${kanji}</span>
           </div>
           <div class="reward-content">
             <div class="reward-top">
